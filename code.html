@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Career Guidance</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header>
+        <h1>Career Guidance Platform</h1>
+        <p>Connect with professionals from various fields to get career guidance.</p>
+    </header>
+
+    <section id="professionals">
+        <h2>Available Professionals</h2>
+        <div class="professional-card" id="prof1">
+            <h3>Rajesh</h3>
+            <p>Software Engineer</p>
+            <button onclick="bookAppointment('Rajesh', 'Software Engineer')">Book Appointment</button>
+        </div>
+
+        <div class="professional-card" id="prof2">
+            <h3>Jahnavi</h3>
+            <p>Test Lead</p>
+            <button onclick="bookAppointment('Jahnavi', 'Test Lead')">Book Appointment</button>
+        </div>
+
+        <div class="professional-card" id="prof3">
+            <h3>Naveen</h3>
+            <p>DevOps Engineer</p>
+            <button onclick="bookAppointment('Naveen', 'DevOps Engineer')">Book Appointment</button>
+        </div>
+    </section>
+
+    <div id="appointment-modal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal()">&times;</span>
+            <h2>Book an Appointment</h2>
+            <form id="appointment-form">
+                <label for="name">Name:</label>
+                <input type="text" id="name" required>
+
+                <label for="date">Date:</label>
+                <input type="date" id="date" required>
+
+                <button type="submit">Confirm Appointment</button>
+            </form>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
