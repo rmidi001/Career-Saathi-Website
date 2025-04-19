@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Coordinator Dashboard</title>
+  <link rel="stylesheet" href="coordinator.css" />
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+    }
+
+    .navbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 15px 25px;
+      background-color: #f4f4f4;
+    }
+
+    .navbar h1 {
+      margin: 0;
+    }
+
+    .navbar button {
+      background-color: #4CAF50;
+      color: white;
+      border: none;
+      padding: 10px 15px;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    .navbar button:hover {
+      background-color: #388e3c;
+    }
+
+    .dashboard-content {
+      padding: 40px;
+      text-align: center;
+    }
+
+    .dashboard-content button {
+      display: block;
+      margin: 15px auto;
+      background-color: #4CAF50;
+      color: white;
+      border: none;
+      padding: 14px 28px;
+      border-radius: 8px;
+      cursor: pointer;
+      min-width: 250px;
+      font-size: 16px;
+    }
+
+    .dashboard-content button:hover {
+      background-color: #388e3c;
+    }
+  </style>
+</head>
+<body>
+  <div class="navbar">
+    <h1>Coordinator Dashboard</h1>
+    <button onclick="logout()">Logout</button>
+  </div>
+
+  <div class="dashboard-content">
+    <button onclick="viewStudents()">View Student Applications</button>
+    <button onclick="trackProgress()">Track Student Progress</button>
+    <button onclick="updateProfile()">  Update Your Profile  </button>
+  </div>
+
+  <script>
+    function viewStudents() {
+      window.location.href = "student-applications.html";
+    }
+
+    function trackProgress() {
+      window.location.href = "track-progress.html"; // You can build this page next
+    }
+
+    function updateProfile() {
+      window.location.href = "coordinator-profile.html"; // You can build this page too
+    }
+
+    function logout() {
+      localStorage.removeItem("currentUser");
+      window.location.href = "index.html";
+    }
+
+    // Sample application data
+    const applications = [
+      {
+        appId: "6427697",
+        name: "Rajesh",
+        email: "rajesh@gmail.com",
+        major: "Computer Science",
+        gpa: "3.8",
+        familySize: 4,
+        incomePdf: "income.pdf",
+        status: "Pending"
+      },
+      {
+        appId: "6427698",
+        name: "Carlos",
+        email: "carlos@gmail.com",
+        major: "Biotech",
+        gpa: "3.6",
+        familySize: 5,
+        incomePdf: "income.pdf",
+        status: "Pending"
+      },
+      {
+        appId: "6427699",
+        name: "Jacob",
+        email: "jacob@gmail.com",
+        major: "Computer Science",
+        gpa: "3.8",
+        familySize: 4,
+        incomePdf: "income.pdf",
+        status: "Pending"
+      },
+      {
+        appId: "6427700",
+        name: "Noah",
+        email: "Noah@gmail.com",
+        major: "Computer Science",
+        gpa: "3.8",
+        familySize: 4,
+        incomePdf: "income.pdf",
+        status: "Pending"
+      }
+    ];
+    localStorage.setItem("studentApplications", JSON.stringify(applications));
+  </script>
+</body>
+</html>

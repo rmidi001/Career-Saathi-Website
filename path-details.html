@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Path Details</title>
+    <link rel="stylesheet" href="index.css">
+</head>
+
+<body>
+    <!-- Navbar -->
+    <div class="navbar">
+        <h1 id="career-title">Career Path: </h1>
+    </div>
+
+    <!-- Resources Section -->
+    <section id="resources">
+        <h2>Resources</h2>
+        <ul id="resource-list">
+            <!-- Resources will be dynamically added here -->
+        </ul>
+    </section>
+
+    <!-- Mentors Section with Scheduling Options -->
+    <section>
+        <h2>Mentors</h2>
+        <div class="mentor-list" id="mentor-list">
+            <!-- Mentors will be dynamically added here -->
+        </div>
+    </section>
+
+    <!-- Career Journeys Section -->
+    <section>
+        <h2>Career Journeys</h2>
+        <p>Read how others successfully navigated this career path:</p>
+        <ul id="journey-list">
+            <!-- Career journeys will be dynamically added here -->
+        </ul>
+    </section>
+
+    <!-- Modal for Scheduling -->
+    <div id="schedule-modal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeScheduleModal()">&times;</span>
+            <h2>Schedule a Meeting</h2>
+            <form id="schedule-form">
+                <div class="form-group">
+                    <label for="meeting-date">Select Date:</label>
+                    <input type="date" id="meeting-date" required>
+                </div>
+                <div class="form-group">
+                    <label for="meeting-time">Select Time:</label>
+                    <input type="time" id="meeting-time" required>
+                </div>
+                <button type="submit">Confirm</button>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        // Define data for each career path
+        const careerData = {
+            "Software Engineering": {
+                resources: [
+                    { name: "CS50's Introduction to Computer Science", link: "https://www.edx.org/course/cs50s-introduction-to-computer-science" },
+                    { name: "Clean Code by Robert C. Martin", link: "https://www.amazon.com/Clean-Code-Handbook-Software-Craftsmanship/dp/0132350882" },
+                    { name: "Visual Studio Code (IDE)", link: "https://code.visualstudio.com/" }
+                ],
+                mentors: [
+                    { name: "Rajesh Mididhoddi", title: "Senior Software Engineer with 10 years of experience" }
+                ],
+                journeys: [
+                    { name: "Story of Rajesh, a Software Engineer", link: "rajesh-story.html" },
+                    { name: "Story of Jahnavi, a Full Stack Developer", link: "jahnavi-story.html" }
+                ]
+            },
+            "Data Science": {
+                resources: [
+                    { name: "Data Science Specialization by Coursera", link: "https://www.coursera.org/specializations/jhu-data-science" },
+                    { name: "Python for Data Analysis by Wes McKinney", link: "https://www.amazon.com/Python-Data-Analysis-Wrangling-IPython/dp/1491957662" }
+                ],
+                mentors: [
+                    { name: "Jane Doe", title: "Data Scientist with 5 years of experience" }
+                ],
+                journeys: [
+                    { name: "Story of Alex, a Data Analyst", link: "#" },
+                    { name: "Story of Emily, a Machine Learning Engineer", link: "#" }
+                ]
+            },
+            "DevOps": {
+                resources: [
+                    { name: "Docker for Beginners", link: "https://www.docker.com/" },
+                    { name: "Kubernetes Handbook", link: "https://kubernetes.io/" }
+                ],
+                mentors: [
+                    { name: "Michael Smith", title: "DevOps Engineer with 7 years of experience" }
+                ],
+                journeys: [
+                    { name: "Story of Sarah, a Cloud Engineer", link: "#" },
+                    { name: "Story of Tom, a CI/CD Specialist", link: "#" }
+                ]
+            },
+            "Testing": {
+                resources: [
+                    { name: "Selenium for Web Testing", link: "https://www.selenium.dev/" },
+                    { name: "Test Automation with Python", link: "https://www.udemy.com/" }
+                ],
+                mentors: [
+                    { name: "John Tester", title: "QA Engineer with 6 years of experience" }
+                ],
+                journeys: [
+                    { name: "Story of Jake, a QA Lead", link: "#" },
+                    { name: "Story of Lisa, an Automation Tester", link: "#" }
+                ]
+            }
+        };
+
+        // Retrieve the selected path and load the relevant data
+        const selectedPath = localStorage.getItem("selectedPath");
+        document.getElementById("career-title").innerText += selectedPath || "Unknown Path";
+
+        if (careerData[selectedPath]) {
+            const pathData = careerData[selectedPath];
+
+            // Populate resources
+            const resourceList = document.getElementById("resource-list");
+            pathData.resources.forEach(resource => {
+                const li = document.createElement("li");
+                li.innerHTML = `<a href="${resource.link}" target="_blank">${resource.name}</a>`;
+                resourceList.appendChild(li);
+            });
+
+            // Populate mentors
+            const mentorList = document.getElementById("mentor-list");
+            pathData.mentors.forEach(mentor => {
+                const mentorDiv = document.createElement("div");
+                mentorDiv.classList.add("mentor");
+                mentorDiv.innerHTML = `
+                    <h3>${mentor.name}</h3>
+                    <p>${mentor.title}</p>
+                    <button onclick="openScheduleModal('${mentor.name}')">Schedule a Meeting</button>
+                `;
+                mentorList.appendChild(mentorDiv);
+            });
+
+            // Populate career journeys
+            const journeyList = document.getElementById("journey-list");
+            pathData.journeys.forEach(journey => {
+                const li = document.createElement("li");
+                li.innerHTML = `<a href="${journey.link}" target="_blank">${journey.name}</a>`;
+                journeyList.appendChild(li);
+            });
+        } else {
+            document.getElementById("resources").innerHTML = "<p>No resources available for this career path.</p>";
+            document.getElementById("mentor-list").innerHTML = "<p>No mentors available for this career path.</p>";
+            document.getElementById("journey-list").innerHTML = "<p>No career journeys available for this career path.</p>";
+        }
+
+        // Open Schedule Modal
+        function openScheduleModal(mentorName) {
+            localStorage.setItem("selectedMentor", mentorName);
+            const modal = document.getElementById("schedule-modal");
+            modal.style.display = "block";
+        }
+
+        // Close Schedule Modal
+        function closeScheduleModal() {
+            const modal = document.getElementById("schedule-modal");
+            modal.style.display = "none";
+        }
+
+        // Handle meeting schedule confirmation
+        document.getElementById("schedule-form").onsubmit = function (event) {
+            event.preventDefault();
+
+            const date = document.getElementById("meeting-date").value;
+            const time = document.getElementById("meeting-time").value;
+            const mentorName = localStorage.getItem("selectedMentor");
+
+            if (date && time) {
+                alert(`Meeting scheduled with ${mentorName} on ${date} at ${time}`);
+                closeScheduleModal();
+            } else {
+                alert("Please select a date and time.");
+            }
+        };
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Track Student Progress</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      padding: 30px;
+    }
+    .form-section, .result-section {
+      max-width: 500px;
+      margin: auto;
+      margin-bottom: 30px;
+    }
+    input, button, textarea {
+      width: 100%;
+      padding: 10px;
+      margin: 10px 0;
+    }
+    .result-box {
+      border: 1px solid #ccc;
+      padding: 15px;
+      border-radius: 5px;
+      background-color: #f9f9f9;
+    }
+  </style>
+</head>
+<body>
+
+  <h2>Track Student Progress</h2>
+
+  <div class="form-section">
+    <label>Student Name:</label>
+    <input type="text" id="student-name" required />
+
+    <label>Application ID:</label>
+    <input type="text" id="app-id" required />
+
+    <button onclick="trackProgress()">Track Progress</button>
+  </div>
+
+  <div class="result-section" id="result-section" style="display: none;">
+    <h3>Progress Details</h3>
+    <div class="result-box" id="progress-details"></div>
+
+    <label>Add Notes:</label>
+    <textarea id="coordinator-notes" rows="4"></textarea>
+    <button onclick="saveNotes()">Save Notes</button>
+  </div>
+
+  <script>
+    const applications = JSON.parse(localStorage.getItem("studentApplications")) || [];
+
+    function trackProgress() {
+      const name = document.getElementById("student-name").value.trim().toLowerCase();
+      const appId = document.getElementById("app-id").value.trim();
+
+      const student = applications.find(app =>
+        app.name.toLowerCase() === name && app.appId === appId
+      );
+
+      if (!student) {
+        alert("❌ Student not found or invalid Application ID.");
+        return;
+      }
+
+      // Show progress
+      const section = document.getElementById("result-section");
+      const details = document.getElementById("progress-details");
+
+      const progressHTML = `
+        <p><strong>Name:</strong> ${student.name}</p>
+        <p><strong>Application ID:</strong> ${student.appId}</p>
+        <p><strong>GPA:</strong> ${student.gpa}</p>
+        <p><strong>Attendance:</strong> ${student.attendance || '92%'}</p>`;
+        
+
+      details.innerHTML = progressHTML;
+      section.style.display = "block";
+    }
+
+    function saveNotes() {
+      const notes = document.getElementById("coordinator-notes").value.trim();
+      const appId = document.getElementById("app-id").value.trim();
+
+      const index = applications.findIndex(app => app.appId === appId);
+      if (index !== -1) {
+        applications[index].notes = notes;
+        localStorage.setItem("studentApplications", JSON.stringify(applications));
+        alert("📝 Notes saved!");
+        document.getElementById("coordinator-notes").value = "";
+        trackProgress(); // Refresh the display
+      }
+    }
+  </script>
+</body>
+</html>

@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Student Applications</title>
+  <link rel="stylesheet" href="coordinator.css" />
+  <style>
+    .navbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 10px 20px;
+      background-color: #f4f4f4;
+    }
+
+    .card-container {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 20px;
+      padding: 20px;
+    }
+
+    .card {
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      padding: 15px;
+      width: 250px;
+      background: #f9f9f9;
+    }
+
+    .card button {
+      background-color: #4CAF50;
+      color: white;
+      border: none;
+      padding: 8px 12px;
+      margin-top: 10px;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    .card button:hover {
+      background-color: #388e3c;
+    }
+
+    .navbar button {
+      background-color: #4CAF50;
+      color: white;
+      border: none;
+      padding: 8px 14px;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    .navbar button:hover {
+      background-color: #388e3c;
+    }
+  </style>
+</head>
+<body>
+  <div class="navbar">
+    <h1>Student Applications</h1>
+    <button onclick="logout()">Logout</button>
+  </div>
+
+  <div id="student-list" class="card-container">
+    <!-- Student cards will be added here -->
+  </div>
+
+  <script>
+    const students = JSON.parse(localStorage.getItem("studentApplications")) || [];
+
+    function createCard(student, index) {
+      const div = document.createElement("div");
+      div.className = "card";
+      div.innerHTML = `
+        <h3>${student.name}</h3>
+        <p>Email: ${student.email}</p>
+        <p>Application ID: ${student.appId}</p>
+        <p>Status: ${student.status}</p>
+        <button onclick="viewApplication(${index})">View Application</button>
+      `;
+      return div;
+    }
+
+    function viewApplication(index) {
+      localStorage.setItem("selectedApplication", JSON.stringify(students[index]));
+      window.location.href = "view-application.html";
+    }
+
+    function renderCards() {
+      const container = document.getElementById("student-list");
+      container.innerHTML = "";
+      students.forEach((student, index) => {
+        container.appendChild(createCard(student, index));
+      });
+    }
+
+    function logout() {
+      localStorage.removeItem("currentUser");
+      window.location.href = "index.html";
+    }
+
+    renderCards();
+  </script>
+</body>
+</html>

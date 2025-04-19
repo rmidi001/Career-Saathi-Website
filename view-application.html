@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Application Review</title>
+  <link rel="stylesheet" href="coordinator.css" />
+</head>
+<body>
+  <div class="navbar">
+    <h1>Application Review</h1>
+    <button onclick="logout()">Logout</button>
+  </div>
+
+  <div class="card" id="app-detail"></div>
+
+  <script>
+    const student = JSON.parse(localStorage.getItem("selectedApplication"));
+    const allApps = JSON.parse(localStorage.getItem("studentApplications")) || [];
+
+    const detailDiv = document.getElementById("app-detail");
+    if (student) {
+      detailDiv.innerHTML = `
+        <h3>${student.name}</h3>
+        <p>Email: ${student.email}</p>
+        <p>Application ID: ${student.appId}</p>
+        <p>Major: ${student.major}</p>
+        <p>GPA: ${student.gpa}</p>
+        <p>Family Size: ${student.familySize}</p>
+        <p>Attached Income Certificate: <a href="${student.incomePdf}" target="_blank">View PDF</a></p>
+        <p>Status: ${student.status}</p>
+        <button onclick="approve()">Approve</button>
+        <button onclick="reject()">Reject</button>
+      `;
+    }
+
+    function approve() {
+      updateStatus("Approved");
+    }
+
+    function reject() {
+      const reason = prompt("Enter rejection reason:");
+      if (reason) updateStatus(`Rejected: ${reason}`);
+    }
+
+    function updateStatus(newStatus) {
+      const index = allApps.findIndex(a => a.appId === student.appId);
+      allApps[index].status = newStatus;
+      localStorage.setItem("studentApplications", JSON.stringify(allApps));
+      alert("✅ Application updated.");
+      window.location.href = "student-applications.html";
+    }
+
+    function logout() {
+      localStorage.removeItem("currentUser");
+      window.location.href = "index.html";
+    }
+  </script>
+</body>
+</html>

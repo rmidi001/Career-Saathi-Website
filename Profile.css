@@ -1,0 +1,35 @@
+/* Profile Section */
+.profile-container {
+    width: 50%;
+    margin: 40px auto;
+    padding: 20px;
+    background-color: #1E1E1E;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(255, 255, 255, 0.2);
+    text-align: center;
+}
+
+/* Education & Financial Sections */
+#education-form, #financial-form {
+    display: none;
+    margin-top: 15px;
+    padding: 10px;
+    background-color: #333;
+    border-radius: 5px;
+    color: white;
+}
+
+button {
+    margin-top: 10px;
+    width: 100%;
+    padding: 12px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+button:hover {
+    background-color: #45a049;
+}
