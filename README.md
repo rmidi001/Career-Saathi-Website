@@ -1,6 +1,6 @@
 # Career Saathi Management System 
 
-A web-based platform to support rural students in need of financial aid and career mentorship, developed as part of Nirmaan's Education Program.
+A web-based platform to support rural students in need of financial aid and career mentorship.
 
 ---
 
